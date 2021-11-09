@@ -1,0 +1,433 @@
+---
+title: "r Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*.
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+### Chapter 3
+
+Shopping list (non-labelled items) milk, apple, pork
+
+Here 1, 2 and 3 are not their label. It simply represents the position of the item on the shopping list, which is like the position of element value in a list.
+
+It is like
+
+```{r}
+list(
+  "milk", 
+  "apple", 
+  "pork"
+)[[1]]
+```
+
+Or
+
+```{r}
+list(
+  Compulsory = 
+    c("Principle of Economics", 
+      "Calculus", 
+      "Accounting"),
+  Selective = 
+    c("Philosophy", 
+      "Chinese Literature")
+)[[2]][[2]]
+```
+
+Using c because the values are the same type Element name = Element value
+
+Nested list in program
+
+```{r}
+list(
+  name="Gianandrea Noseda conducts Schumann and Mendelssohn — With Mikhail Pletnev",
+  time="2021, Oct, 01",
+  program=list(
+    "Robert Schumann, Piano Concerto in A Minor, Op. 54",
+    "Felix Mendelssohn-Bartholdy, Symphony No. 4 in A Major, Op. 90, Italian"
+  )
+)
+```
+
+If you have 2 concerts than you can do it like this
+
+```{r}
+list(
+  list(
+    name="name1",
+    time="time1",
+    program=list(
+      "music1",
+      "music2"
+    )
+  ),
+  list(
+    name="name2",
+    time="time2",
+    program=list(
+      "musicA",
+      "musicB"
+    )
+  )
+)
+```
+
+How would you store the following lists:
+
+Shopping list: egg x 2 dozens, milk x 1L, vegetable x 2 kinds.
+
+```{r}
+list(
+  egg="2 dozens",
+  milk="1L",
+  vegetables="2kinds"
+)
+```
+
+Make a list of two courses your take this semester with course name, time, and place
+
+```{r}
+list(
+  list(
+    name="Cross Cultural Class",
+    time="10am-12pm",
+    place="Humanities Building"),
+    list(
+      name="Human Resources Class",
+      time="1pm-4pm",
+      place="Business Building")
+    )
+```
+
+## Import JSON
+
+press FN+F1 to see on fromJSON
+
+```{r}
+# Observation by observation
+# Observation by observation
+concerts_obo <-
+  jsonlite::fromJSON("https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=17", simplifyDataFrame = FALSE)
+
+# Feature by feature
+concerts_fbf <-
+  jsonlite::fromJSON("https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=17", simplifyDataFrame = TRUE) #open like a spread sheet
+```
+
+### 3.2 Retrieve Multiple Element Values
+
+to retrieve one value use double bracket
+
+```{r}
+[[1]]
+[["element value"]]
+```
+
+if you wan to retrieve more use one brecket
+
+```{r}
+[ c(1, 2, 5)]
+[ c("name 1", "name 2")]
+```
+
+```{r}
+JohnsFamily <-
+  list(
+    name = "John", 
+    age = 35,
+    spouse = list(
+      name = "Mary", 
+      age = 32),
+    children = list(
+      list(
+        name = "Bill", 
+        age = 5),
+      list(
+        name = "Jane", 
+        age = 3)
+    )
+  )
+```
+
+how to check element names
+
+```{r}
+names(JohnsFamily)
+```
+
+```{r}
+fncallExample <- list("John", 35, covid19Positive=FALSE)
+length(fncallExample)
+names(fncallExample)
+```
+
+```{r}
+Sys.Date() # show the date today
+```
+
+```{r}
+car() #driving a car ; function call
+```
+
+```{r}
+car # look inside the car on how it is built
+```
+
+```{r}
+JohnsFamily[c(1,2)] # first and second element value
+# also a list
+JohnsFamily[("name","age")]
+```
+
+```{r}
+source2 <- c(2, 29, 3, 7)
+example2 <- source2[c(2,4)]
+```
+
+## Exercise 3.2
+
+From concerts_obo,
+
+Retrieve the 3rd and 5th concert observations and bind the result value with an object name concerts_sampled.
+
+For the second concert, what are its first show's time and location? Retrieve the information and bind the value with firstShowInfo.
+
+```{r}
+concerts_sampled <- concerts_obo[c(3,5)]
+```
+
+```{r}
+firstShowInfo <- concerts_obo[[2]][["showInfo"]][[1]][c("time","location")]
+```
+
+## 3.3 Replacement
+
+```{r}
+JohnsFamily <-
+  list(
+    name = "John", #1st element; named element name
+    age = 35,
+    spouse = list(
+      name = "Mary", 
+      age = 32),
+    children = list(
+      list(
+        name = "Bill", 
+        age = 5),
+      list(
+        name = "Jane", 
+        age = 3)
+    )
+  )
+```
+
+```{r}
+JohnsFamilyCopy <- JohnsFamily
+JohnsFamilyCopy[[1]]
+JohnsFamilyCopy[[1]] <- "Watson" 
+JohnsFamilyCopy[[1]]
+
+JohnsFamilyCopy[["name"]] <-"John"
+JohnsFamilyCopy[[1]]
+```
+
+```{r}
+JohnsFamilyCopy <- JohnsFamily
+# name to "Watson"
+JohnsFamilyCopy[["name"]] <- "Watson"
+# age to 37
+JohnsFamilyCopy[["age"]] <- 37
+JohnsFamilyCopy
+
+```
+
+```{r}
+JohnsFamilyCopy <- JohnsFamily
+
+# name and age to "Watson" and 37
+JohnsFamilyCopy[c("name","age")] <- list(names="Watson",age="37")
+
+JohnsFamilyCopy
+```
+
+```{r}
+# name and age to "Dickens" and 32
+
+JohnsFamilyCopy[c("name","age")] <-
+  list("Dickens","32")
+
+JohnsFamilyCopy
+```
+
+```{r}
+JohnsFamilyCopy <- JohnsFamily
+#spouse age is wrong
+JohnsFamilyCopy$spouse$age # or
+JohnsFamilyCopy$spouse[["age"]]
+
+# correct it to 33
+JohnsFamilyCopy$spouse$age <- 33 #or
+33 -> JohnsFamilyCopy$spouse$age
+JohnsFamilyCopy$spouse[["age"]]
+
+# the first child's name is wrong
+JohnsFamilyCopy$children[[1]]
+JohnsFamilyCopy$children[[1]] <- "Gary"
+JohnsFamilyCopy$children[[1]]
+```
+
+# EXERCISE 3.3
+
+From concerts_obo, due to Covid-19 the 3rd concert's 1st show time is changed to "2022/01/31 19:30:00" and the location is changed to "Taichung Opera House", please change the information
+
+```{r}
+concerts_obo[[3]]$showInfo[[1]][c("time","location")]
+concerts_obo[[3]]$showInfo[[1]][c("time","location")] <- list(time = "2022/01/31 19:30:00", location = "Taichung Opera House")
+```
+
+### 3.4 Add Element Values
+
+Adding an element value is like
+
+Retrieve a non-existent element value and bind a value to it
+
+```{r}
+example1 <- c("John", "Mary", "Bill")
+# retrieve an non-existing element name "person4"
+example1[["person4"]] <- "Ken"
+```
+
+
+```{r}
+example1 <- c("John", "Mary", "Bill)
+example1[[4]]
+example1[[4]] <- "Ken" # binding a value to some non-existent retrieval
+
+# 
+example1 <- c("John", "Mary", "Bill)
+example1[["person4"]]
+example1[["person4"]] <- "Ken"
+example1[["person4"]]
+
+# becomes
+c("John", "Mary", "Bill")
+
+# retrieve on non-existing element name "person4"
+example1[["person4"]] <- "Ken"
+```
+
+```{r}
+example1 <- c("John", "Mary", "Bill")
+example1 <- c("John", "Mary", "Bill","Kevin")
+example1[[4]] 
+```
+
+
+
+```{r}
+# retrieve two non-existing element positions
+example1[c(7,8)] <- c("person7"="Jack", "Janem")
+example1
+```
+
+
+```{r}
+JohnsFamilyCopy2 <- JohnsFamily
+# Add a new born 
+```
+
+```{r}
+newBorn <- list(
+  name="Lisa",
+  age=0
+)
+```
+
+```{r}
+JohnsFamilyCopy2$children[[3]] <- newBorn
+# do name call of newBorn
+JohnsFamilyCopy2$children[[3]] <- list(
+  name="Lisa",
+  age=0
+)
+```
+
+
+```{r}
+JohnsFamilyCopy2$children[[3]] <- 
+  list(name="Lisa", age=0) # $ is for list only
+```
+
+### 3.4
+```{r}
+height <- c("001"=177, "002"=183, "003"=173)
+
+height[["001"]] 
+height[["002"]] 
+height[["003"]] 
+```
+
+```{r}
+rm(height)
+
+# if height exists but no following three element
+height[["001"]] <- 177
+height[["002"]] <- 183
+height[["003"]] <- 173
+```
+
+* in each line, R does not **name call** first (name call on height)
+
+```{r}
+# make height exist here but with no element values
+height <- numeric(0) # this step is called declaration
+```
+
+```{r}
+height[["001"]] <- 177
+height[["002"]] <- 183
+height[["003"]] <- 173
+```
+
+* Declaration makes name call on height have meaning
+
+```{r}
+height
+
+```
+
+```{r}
+height <- numeric(0) # Declaration
+
+height[["001"]] <- 177 #adding one element values
+height[c("002", "003")] <- c(183, 173) #add 2 element values
+```
+
+Each type of vector has a different declaration function to call:
+```{r}
+# declare a numeric object
+object_numeric <- numeric(0)
+# declare a character object
+object_character <- character(0)
+# declare a logical object 
+object_logical <- logical(0)
+```
+
+## 3.4.3 Data Construction Example
+
+
+
+
