@@ -1,0 +1,181 @@
+##4.3.1
+
+```{r}
+c(2, 5, 7) + 3 # work
+list(2, 5, 7) + 3 # won't work so put class conversion first because class operation only works on atomic vector
+```
+
+```{r}
+convert2numeric <- as.numeric(c("2", "5", "7")) 
+convert2numeric + 3
+```
+
+```{r}
+mylist <- list(2, 5, 7)
+mylist[[1]] <- mylist[[1]]+3
+mylist[[2]] <- mylist[[2]]+3
+mylist[[3]] <- mylist[[3]]+3
+print(mylist)
+```
+
+```{r}
+unlist(mylist) + 3
+```
+unlist is to convert list to atominc vector
+```{r}
+examples <- list()
+examples$unlist$source1 <-
+  list("A", "B", "C")
+examples$unlist$result1 <- 
+  unlist(examples$unlist$source1)
+
+print(examples$unlist$source1)
+print(examples$unlist$result1)
+
+class(examples$unlist$source1)
+class(examples$unlist$result1)
+```
+
+
+
+```{r}
+examples$unlist$source2 <- 
+  list(
+    list("A", "B", list("C")),
+    list("D"),
+    "E"
+  )
+examples$unlist$result2 <- 
+  unlist(
+    examples$unlist$source2
+  )
+
+print(examples$unlist$source2)
+print(examples$unlist$result2)
+class(examples$unlist$source2)
+class(examples$unlist$result2)
+```
+
+```{r}
+participations <- 
+list('session 3',c("session 1", "session 2", "session 3"),'session 3',c("session 2", "session 1"),c("session 3", "session 1"),c("session 3", "session 2", "session 1"),'session 2','session 1',c("session 2", "session 1", "session 3"),c("session 3", "session 1", "session 2"))
+```
+
+```{r}
+# sessions that 1st student attended
+participations[[1]] 
+# sessions that 2nd student attended
+participations[[2]]
+```
+
+##4.3.2
+!as.list(
+  c("A", "B", "C")
+)
+```{r}
+as.list(
+  c("A", "B", "C")
+) # not the same as 
+list(c("A", "B", "C")
+)
+
+# element names will be preserved
+as.list(
+  c(name="John", spouse="Mary")
+)
+```
+
+##4.3.3
+```{r}
+lgl <- c(TRUE, FALSE) #logical
+num <- c(0.2, 3, 0) #numeric
+```
+
+```{r}
+as.character(lgl) #same as 
+c("TRUE", "FALSE")
+as.character(num)
+```
+
+***
+as.numeric
+```{r}
+tookRcourse <- c(TRUE, FALSE, TRUE, TRUE)
+as.numeric(tookRcourse)
+howManyTookR <- sum(
+  as.numeric(tookRcourse)
+)
+print(howManyTookR)
+```
+
+```{r}
+howManyTookR <- sum(tookRcourse)
+print(howManyTookR)
+```
+
+```{r}
+ming_guoDates <- c("1100822","1090723") # 民國100-8-22，民國109-7-23
+
+# 民國1年 is 1911
+westernDates <- 
+  as.numeric(ming_guoDates) +
+  19110000
+
+westernDates 
+
+lubridate::ymd(westernDates)
+```
+
+as logical :
+any number is zero
+```{r}
+# on numeric vector
+# tell us if the number is not zero
+print(num)
+as.logical(num)
+```
+
+who has a job
+```{r}
+# only person with a non-zero wage has a job
+wage <- c(3000, 2000, 0, 1000)
+haveJob <- as.logical(wage)
+haveJob
+```
+
+Extended class’s value has a feature that it’s stored values (i.e. storage type) may be different from it’s printed values (i.e. what we see on name call or print).
+
+For extended classes,
+
+as.numeric() works on the type of storage of the extended class.
+
+as.character() works on the print out of the extended class.
+
+```{r}
+fct <- factor(
+  c('參','貮','貮','貮','壹','貮','參','貮','參','參'),
+  levels=c('壹','貮','參')
+  )
+
+dt <- lubridate::ymd_hms(
+  c('2012-08-25 19:36:00','2018-01-06 10:44:00','2010-03-08 00:56:00')
+)
+```
+
+```{r}
+print(fct)
+as.character(fct)
+
+typeof(fct)
+as.numeric(fct) # the positions in levels
+```
+
+
+
+
+
+
+
+
+
+
